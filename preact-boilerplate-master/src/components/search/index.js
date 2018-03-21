@@ -30,13 +30,16 @@ export default class Search extends Component{
 	  }
 	
 	  handleChange(e) {
-		  console.log({value: e.target.value}); //target gets the element that called the event. So calling event.value means .value of the text field!! EURKA!
 		let cardList = [];
+		this.setState({resultCard: cardList});
 		axios.get('https://api.themoviedb.org/3/search/movie?api_key=29a65b0e2cfd51bcea9d09c3f3566464&language=en-US&query=' + e.target.value + '&page=1&include_adult=false')
 			.then((response) => {
 				response.data.results.forEach(movie => {
 					cardList.push(
+						<h5>
 						<Card data={movie}/>
+						</h5>
+
 					);
 				});
 				
@@ -56,17 +59,16 @@ export default class Search extends Component{
 							placeholder="Enter Movie Title"
 							debounceTimeout={400}
 							onChange={this.handleChange}
-						/>
-						
+							/>
 						<FormControl.Feedback />
 						<HelpBlock>{this.state.help}</HelpBlock>
 					</FormGroup>
 					
 					
 				</form>
-				
+				<h4>
 				{this.state.resultCard}
-				
+				</h4>
 			</div>
 		);
 	}
